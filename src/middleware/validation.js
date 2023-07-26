@@ -30,7 +30,11 @@ const regisScheme = [
     .withMessage(
       "Password harus 1 huruf besar, 1 huruf kecil, dengan 1 symbol"
     ),
-  body("phone").notEmpty().withMessage("phone tidak boleh kosong"),
+  body("phone")
+    .notEmpty()
+    .withMessage("phone tidak boleh kosong")
+    .isMobilePhone()
+    .withMessage("phone tidak valid"),
   body("confirmPassword").notEmpty().withMessage("password tidak boleh kosong"),
 ];
 

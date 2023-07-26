@@ -18,7 +18,7 @@ app.use("/api/user", userRouter);
 app.use("/api/blog", blogRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/country", countryRouter);
-app.use("/", express.static(path.resolve(__dirname, "./")));
+app.use("/", express.static(path.resolve(__dirname, "../")));
 
 // const db = require("./models");
 // db.sequelize.sync({ alter: true });

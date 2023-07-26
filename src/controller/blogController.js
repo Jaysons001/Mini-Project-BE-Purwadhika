@@ -1,6 +1,6 @@
 const db = require("../models/");
 const Blog = db.Blog;
-
+const fs = require("fs").promises;
 const database = [
   { model: db.Category, attributes: ["name"] },
   { model: db.Country, attributes: ["name"] },
@@ -99,6 +99,9 @@ const blogController = {
       return res.status(403).json("Ini bukan tulisanmu");
     try {
       await db.sequelize.transaction(async (t) => {
+        fs.unlink(blog.imgBlog, (err) => {
+          return res.status(500).json({ message: "ada yang salah" });
+        });
         await Blog.destroy({ where: { id }, transaction: t });
         return res.status(200).json({ message: "blog berhasil dihapus" });
       });

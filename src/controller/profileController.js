@@ -62,7 +62,7 @@ const profileController = {
   changeUser: async (req, res) => {
     const { oldUser, newUser } = req.body;
 
-    const iniUser = await User.findOne({ where: { id: req.user.id } });
+    const iniUser = await User.findOne({ where: { user: oldUser } });
     if (!iniUser) return res.status(400).json({ message: "anda bukan user" });
 
     const sameUser = await User.findOne({ where: { user: newUser } });
@@ -146,7 +146,7 @@ const profileController = {
     try {
       const user = await User.findOne({ where: { email } });
       if (!user) return res.status(400).json({ message: "user tidak ada" });
-      let payload = { id: user.id };
+      let payload = { id: user.id, isVerified: user.isVerified };
       const token = jwt.sign(payload, process.env.JWT_Key, { expiresIn: `1h` });
       const redirect = `http://localhost:3000/forgotPassword?${token}`;
       const data = await fs.readFile(
