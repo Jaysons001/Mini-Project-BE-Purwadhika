@@ -11,5 +11,6 @@ router.post(
   multerUpload.single("imgBlog"),
   blogController.createBlog
 );
+router.delete("/get/:id", verifyToken, blogController.deleteBlog);
 
 module.exports = router;

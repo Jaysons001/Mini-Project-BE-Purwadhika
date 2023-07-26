@@ -90,7 +90,6 @@ const profileController = {
       return res.status(400).json({ message: "passwordmu salah" });
     if (newPassword !== confirmNewPassword)
       return res.status(400).json({ message: "confirm yang benar" });
-
     try {
       const salt = await bcrypt.genSalt(10);
       const hashNewPassword = await bcrypt.hash(newPassword, salt);
@@ -98,7 +97,6 @@ const profileController = {
         await User.update({ password: hashNewPassword }, { where: { id } });
         await kirimEmaiPassword(user.email), { transaction: t };
       });
-
       return res.status(200).json({ message: "password berhasil dirubah" });
     } catch {
       return res.status(500).json({ message: "ada yang salah" });
@@ -123,13 +121,11 @@ const profileController = {
     try {
       const { id } = req.user;
       const avatarlama = await User.findOne({ where: { id } });
-
       if (avatarlama.imgProfile) {
         fs.unlink(avatarlama.imgProfile, (err) => {
           if (err) return res.status(500).json({ message: "ada yang salah" });
         });
       }
-
       await db.sequelize.transaction(async (t) => {
         const result = await User.update(
           { imgProfile: req.file.path },
@@ -137,12 +133,11 @@ const profileController = {
           { transaction: t }
         );
       });
-
       return res.status(200).json({ message: "gambar berhasil dirubah" });
     } catch (err) {
       return res
         .status(500)
-        .json({ message: "failed ganti gambar", error: err.message });
+        .json({ message: "ganti gambar salah", error: err.message });
     }
   },
 
