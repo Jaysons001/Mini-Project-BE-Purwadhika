@@ -100,7 +100,7 @@ const userController = {
         return res.status(400).json({ message: message });
       let payload = { id: checkLogin.id, user: checkLogin.user };
       const token = jwt.sign(payload, process.env.JWT_KEY, {
-        expiresIn: `24h`,
+        expiresIn: `1h`,
       });
 
       return res.status(200).json({ message: "login berhasil", data: token });

@@ -4,15 +4,16 @@ const loginScheme = [
   body("password").notEmpty().withMessage("password tidak boleh kosong"),
   body("user")
     .if(body("user").exists())
-    .exists()
+    .notEmpty()
     .withMessage("user tidak boleh kosong"),
   body("email")
     .if(body("email").exists())
     .isEmail()
+    .notEmpty()
     .withMessage("email tidak boleh salah"),
   body("phone")
     .if(body("phone").exists())
-    .exists()
+    .notEmpty()
     .withMessage("phone tidak boleh kosong")
     .isMobilePhone()
     .withMessage("phone tidak valid"),

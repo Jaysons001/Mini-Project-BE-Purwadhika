@@ -24,7 +24,7 @@ const verifyToken = async (req, res, next) => {
 
 const verifyRegister = async (req, res, next) => {
   let token = req.headers.authorization;
-  if (!token) return res.status(401).send("Belum Login");
+  if (!token) return res.status(401).json("Belum Login");
 
   try {
     token = token.split(" ")[1];
@@ -34,12 +34,12 @@ const verifyRegister = async (req, res, next) => {
     let verifiedUser = jwt.verify(token, process.env.JWT_KEY);
     const user = await db.User.findByPk(verifiedUser.id);
     if (!verifiedUser || user.isVerified == true)
-      return res.status(401).send("Tidak dapat digunakan");
+      return res.status(401).json("Tidak dapat digunakan");
 
     req.user = verifiedUser;
     next();
   } catch (err) {
-    return res.status(400).send("Token Expired");
+    return res.status(400).json("Token Expired");
   }
 };
 
